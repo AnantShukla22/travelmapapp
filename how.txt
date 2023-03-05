@@ -1,0 +1,86 @@
+-----------------------------------------------------------backend---------------------------------------------------------------
+
+
+library for backend-- express mongoose nodemon cors
+understand what all above does
+
+cors is important as u will not be able to fetch data from api without it very very importanat
+
+dotenv - to create env file to upload in github or else anyone can see ur url  -- we have to use dotenv.config
+now connent to mongoDB by using mongo compass port no. adn adding ur database noame to it
+
+now to make post req we make two folders modals and routes
+in modal we crate pin and user
+to create modals we use mongoose and schema
+
+in user modal
+we use timestamp as an agrument in schema model
+we export schema model by giving it name then the modelname
+
+in pin modal
+use diff attributes 
+
+now make a folder routes and make two files user.js and pins.js
+in routes file we import express and router property
+routes is used to create and get the data using the modal made so we import the modal 
+
+now to get the data into the modal we use req.body, but for it to work we have to use - app.use(express.json()) in index.js so that we can input anything as a json
+
+now in pin.js in router folder we use post keyword that sends data to the servers body to create or update data
+underthat we always use try catch which is made a async function 
+then pin.js is exported
+
+after route and modal made in index.js we use app.use to give url and the route to follow
+
+now go to thunder bird client and type local host port and type your body, then send 
+this is the time when after we sent the database has been created in the compass of mongoDB
+
+make a get request in the route pins.js where we will retrieve ie find the place that already exist in the database 
+get function us used to retrieve data from the database
+so go to the thunderclient and make a get request it will show u the items that are in database
+
+now go to user.js route and make a register, it happens in 3 ways 1.generate password, 2.create new user,3.save user
+we will create secure password useing bcrypt
+bycrypt requires saltRounds which we can use genSalt to generate, hashed passwordfor which we can retrieve password fromm body and convert it to hash --- using the saltROunds
+
+now create new user take 3 properties and save it and go to index.js to make another app.use and import user.js
+in app.use what url we give and what is given in route is to be mixed to get the results iein app.use we have api/users now it will not work so we have to give api/users/register to make it work
+there should be one callback() function so use return with each
+
+backend finished here
+
+
+
+-----------------------------------------------------------frontend---------------------------------------------------------------
+we will use mapbox for api - use the default one- put it in the env filen
+ now we will install a library for mapbox api -  npm install --save react-map-gl mapbox-gl
+now go to chrome - react map gl
+save code from the 
+now make ur token in mapbox save it in env and with name REACT_MAP_TOKEN or else it wont workt
+then put it in the code using process.env
+to style the map use the style attribute under map elemrnt
+now bring the marker from the docs of react map gl and add offsewtleft and offsetright to it
+marker will be placed wrongly so go to react gl and import its styling 
+go to material ui and add room icon to app
+Marker should be inside map and room should be inside marker elment
+we are using viewport.zoom in Room icon for zooming it 
+now we will add popup in Map element
+under it put a div.card and input the info u require to give in the description
+now style the card in app.css
+
+now we will use backend in frontend
+so we first create a proxy in package.json and type the url of localhost where the backend server is running so that we dont have to type localhost:port/.... again and again we will just give loacation as /pins and it will understand
+we make a useState with pins setPins , pins is the point where we clicked and setPins get data from server and put it into pin and the pin shows the data
+axios is used to retrieve data from the server and sava all data in res and is the set into setPins
+also we use useEffect so that when we refresh page we can fetch all the clicked oins from backend
+now we use pins.map to give info of each pin we click so we put the marker under the pins.map 
+to give the time of creation we use timeago.js - it connects and catches the createdat property we get by the timesstamp in schema model
+now to get one clicked marker we make useState - currentplsceid
+once the marker is clicked the currentplaceid will change hence the popup should change accordingly so we use if else statement of react -- if && () and open the popup for the clicked marker and onClose we will setcurrentplaceid to null
+now on double click on the map we will add things to a pop up and send it to the backend for this we go to out Map element and add onDoubleClick -- now on double click the event is hit which contains the coordinates we just clicked so we will use them
+now we will create a new popup if there is a doubleclick(ie newPlace)
+destructureing the event in console took my life use {}
+now add things in the new popup and make its css
+now to store what is being given we have to create new states ie titlle , desc, rating and use it in to store the target inputs
+now we create a onSubmit in forn element which will handle submit, now clicking submit will refresh the page to prevent this we use preventDefault
+now we create a newPin and enter values in it and we put a try and catch under which we use axios function to post to the location "/pins" our newly created pin
